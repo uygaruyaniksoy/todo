@@ -1,0 +1,73 @@
+{
+  "root": "apps/getir-todo",
+  "sourceRoot": "apps/getir-todo/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/web:build",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "outputPath": "dist/apps/getir-todo",
+        "index": "apps/getir-todo/src/index.html",
+        "baseHref": "/",
+        "main": "apps/getir-todo/src/main.tsx",
+        "polyfills": "apps/getir-todo/src/polyfills.ts",
+        "tsConfig": "apps/getir-todo/tsconfig.app.json",
+        "assets": [
+          "apps/getir-todo/src/favicon.ico",
+          "apps/getir-todo/src/assets"
+        ],
+        "styles": [],
+        "scripts": [],
+        "webpackConfig": "@nrwl/react/plugins/webpack"
+      },
+      "configurations": {
+        "production": {
+          "fileReplacements": [
+            {
+              "replace": "apps/getir-todo/src/environments/environment.ts",
+              "with": "apps/getir-todo/src/environments/environment.prod.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": false,
+          "extractLicenses": true,
+          "vendorChunk": false
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/web:dev-server",
+      "options": {
+        "buildTarget": "getir-todo:build",
+        "hmr": true,
+        "proxyConfig": "apps/getir-todo/proxy.conf.json"
+      },
+      "configurations": {
+        "production": {
+          "buildTarget": "getir-todo:build:production",
+          "hmr": false
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/getir-todo/**/*.{ts,tsx,js,jsx}"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/getir-todo"],
+      "options": {
+        "jestConfig": "apps/getir-todo/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}
