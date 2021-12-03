@@ -1,14 +1,11 @@
-import { Message } from '@getir-todo/api-interfaces';
 import * as express from 'express';
 import { setupMongo } from './mongo';
+import { router } from './routes';
 
 const app = express();
 
-const greeting: Message = { message: 'Welcome to api!' };
-
-app.get('/api', (req, res) => {
-  res.send(greeting);
-});
+app.use(express.json());
+app.use('/api', router);
 
 setupMongo();
 
@@ -17,3 +14,4 @@ const server = app.listen(port, () => {
   console.log('Listening at http://localhost:' + port + '/api');
 });
 server.on('error', console.error);
+
