@@ -18,7 +18,7 @@ export const todosReducer = (state = initialState, action: TodosAction) => {
     case TodosActionType.EDIT_TODO_SUCCESS:
       return {todos: state.todos.map(todo => todo._id === action.payload._id ? action.payload : todo)};
     case TodosActionType.DELETE_TODO_SUCCESS:
-      return {todos: state.todos.filter(({_id}) => action.payload._id === _id)};
+      return {todos: state.todos.filter(({_id}) => action.payload._id !== _id)};
     default:
       return state;
   }
