@@ -10,18 +10,12 @@ const FullWidthTextField = styled(TextField)`
   flex: 1;
 `;
 
-export const TodoInputField = ({todoText = '', onSubmit}: { todoText?: string, onSubmit?: (update: Partial<Todo>) => (void) }) => {
+export const TodoInputField = ({todoText = '', onSubmit, onBlur = () => undefined}: { todoText?: string, onSubmit?: (update: Partial<Todo>) => (void), onBlur?: () => void }) => {
   const [text, setText] = useState(todoText);
   const dispatch = useDispatch();
 
-  const submitIfAvailable = () => {
-    if (onSubmit) {
-      onSubmit({text});
-    }
-  };
-
   const handleKeyPress = (event: React.KeyboardEvent<HTMLDivElement>) => {
-    if (event.key === 'Enter') {
+    if (event.key === 'Enter' && text !== '') {
       if (onSubmit) {
         onSubmit({text});
       } else {
@@ -39,7 +33,7 @@ export const TodoInputField = ({todoText = '', onSubmit}: { todoText?: string, o
   return <FlexPaper>
     <FullWidthTextField onChange={event => setText(event.target.value)}
                         onKeyPress={handleKeyPress}
-                        onBlur={submitIfAvailable}
+                        onBlur={onBlur}
                         value={text}
                         autoFocus/>
   </FlexPaper>;
