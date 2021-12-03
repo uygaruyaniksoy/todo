@@ -19,6 +19,7 @@ export const TodoInputField = ({todoText = '', onSubmit}: { todoText?: string, o
       onSubmit({text});
     }
   };
+
   const handleKeyPress = (event: React.KeyboardEvent<HTMLDivElement>) => {
     if (event.key === 'Enter') {
       if (onSubmit) {
@@ -30,6 +31,8 @@ export const TodoInputField = ({todoText = '', onSubmit}: { todoText?: string, o
           deadline: 0,
         }));
       }
+
+      setText('');
     }
   };
 
