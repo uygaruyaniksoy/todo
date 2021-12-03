@@ -3,6 +3,7 @@ export interface Message {
 }
 
 export interface Todo {
+  _id: string,
   text: string,
   completed: boolean,
   deadline: number,

@@ -1,14 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import { Message } from '@getir-todo/api-interfaces';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { loadTodos } from './state/actions/todos.action';
 
 export const App = () => {
-  const [m, setMessage] = useState<Message>({ message: '' });
+  const dispatch = useDispatch();
+  const state = useSelector(state => state);
 
   useEffect(() => {
-    fetch('/api')
-      .then((r) => r.json())
-      .then(setMessage);
+    dispatch(loadTodos());
   }, []);
+
+  console.log(state);
 
   return (
     <>
@@ -20,7 +22,6 @@ export const App = () => {
           alt="Nx - Smart, Extensible Build Framework"
         />
       </div>
-      <div>{m.message}</div>
     </>
   );
 };
