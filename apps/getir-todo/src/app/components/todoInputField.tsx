@@ -8,6 +8,12 @@ import { FlexPaper } from './flexPaper';
 
 const FullWidthTextField = styled(TextField)`
   flex: 1;
+  background-color: #f9f9f9;
+  
+  input::placeholder {
+    color: #6F4C5B;
+    font-style: italic;
+  }
 `;
 
 export const TodoInputField = ({todoText = '', onSubmit, onBlur = () => undefined}: { todoText?: string, onSubmit?: (update: Partial<Todo>) => (void), onBlur?: () => void }) => {
@@ -35,6 +41,7 @@ export const TodoInputField = ({todoText = '', onSubmit, onBlur = () => undefine
                         onKeyPress={handleKeyPress}
                         onBlur={onBlur}
                         value={text}
+                        placeholder="Enter a todo"
                         autoFocus/>
   </FlexPaper>;
 };
