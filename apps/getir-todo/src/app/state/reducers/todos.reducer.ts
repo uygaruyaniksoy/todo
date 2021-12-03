@@ -1,7 +1,7 @@
 import { Todo } from '@getir-todo/api-interfaces';
 import { TodosAction, TodosActionType } from '../actions/todos.action';
 
-interface TodosState {
+export interface TodosState {
   todos: Todo[]
 }
 
