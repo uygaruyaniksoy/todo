@@ -2,7 +2,7 @@ import { Card } from '@mui/material';
 import styled from 'styled-components';
 
 export const TodosListCard = styled(Card)`
-  margin: 128px auto;
+  margin: 32px auto 0;
   max-width: 840px;
   
   @media (max-width: 1200px) {

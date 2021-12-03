@@ -15,6 +15,7 @@ const BlueCheckbox = styled(Checkbox)`
 `;
 
 export const TodoItem = ({todo}: { todo: Todo }) => {
+  const [className, setClassName] = useState('');
   const [completed, setCompleted] = useState(todo.completed);
   const [editing, setEditing] = useState(false);
   const dispatch = useDispatch();
@@ -23,22 +24,33 @@ export const TodoItem = ({todo}: { todo: Todo }) => {
     dispatch(editTodo({...todo, ...update}));
   };
 
+  const deleteTodoItem = async () => {
+    if (className !== 'deleted') {
+      setClassName('deleted');
+      setTimeout(() => dispatch(deleteTodo(todo)), 300);
+    }
+  }
+
   useEffect(() => {
     if (completed !== todo.completed) {
       updateTodo({completed});
     }
   }, [completed]);
 
+  useEffect(() => {
+    setClassName('created');
+  }, []);
+
   const submitEdit = (update: Partial<Todo>): void => {
     updateTodo(update);
     setEditing(false);
   };
 
-  return <InlineFlexPaper>
+  return <InlineFlexPaper className={className}>
     <BlueCheckbox checked={completed} onChange={event => setCompleted(event.target.checked)}/>
     {!editing && <Typography variant="body1" component="span" onClick={() => setEditing(true)}> {todo.text} </Typography>}
     {editing && <TodoInputField todoText={todo.text} onSubmit={submitEdit} onBlur={() => setEditing(false)}/>}
-    <IconButton color="primary" onClick={() => dispatch(deleteTodo(todo))}>
+    <IconButton color="primary" onClick={deleteTodoItem}>
       <Close/>
     </IconButton>
   </InlineFlexPaper>;
