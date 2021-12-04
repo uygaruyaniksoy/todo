@@ -19,7 +19,13 @@ const FullWidthTextField = styled(TextField)`
   }
 `;
 
-export const TodoInputField = ({todo, onSubmit, onBlur}: { todo?: Todo, onSubmit?: (update: Partial<Todo>) => (void), onBlur?: () => void }) => {
+interface TodoInputFieldProps {
+  todo?: Todo,
+  onSubmit?: (update: Partial<Todo>) => (void),
+  onBlur?: () => void,
+}
+
+export const TodoInputField = ({todo, onSubmit, onBlur}: TodoInputFieldProps) => {
   const input = useRef<HTMLInputElement>(null);
   const [text, setText] = useState(todo?.text ?? '');
   const [datePickerOpen, setDatePickerOpen] = useState(false);
