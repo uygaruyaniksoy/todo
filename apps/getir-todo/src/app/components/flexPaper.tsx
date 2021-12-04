@@ -33,7 +33,7 @@ export const FlexPaper = styled(Paper)`
     .MuiInputBase-root {
       input {
         text-align: right; 
-        padding-top: 12px;
+        padding-top: 14px;
       }
       
       ::before, ::after {

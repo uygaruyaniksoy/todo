@@ -2,7 +2,7 @@ import { Todo } from '@getir-todo/api-interfaces';
 import { MobileDateTimePicker } from '@mui/lab';
 import { IconButton, InputAdornment, TextField } from '@mui/material';
 import EventIcon from '@mui/icons-material/Event';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { createTodo } from '../state/actions/todos.action';
@@ -19,15 +19,17 @@ const FullWidthTextField = styled(TextField)`
 `;
 
 export const TodoInputField = ({todo, onSubmit, onBlur = () => undefined}: { todo?: Todo, onSubmit?: (update: Partial<Todo>) => (void), onBlur?: () => void }) => {
-  const datePicker = useRef<HTMLInputElement>(null);
+  const input = useRef<HTMLInputElement>(null);
   const [text, setText] = useState(todo?.text ?? '');
+  const [datePickerOpen, setDatePickerOpen] = useState(false);
+  const [textFieldFocus, setTextFieldFocus] = useState(true);
   const [deadline, setDeadline] = useState<number | null>(todo?.deadline ?? null);
   const dispatch = useDispatch();
 
   const handleKeyPress = (event: React.KeyboardEvent<HTMLDivElement>) => {
     if (event.key === 'Enter' && text !== '') {
       if (onSubmit) {
-        onSubmit({text, deadline});
+        onSubmit({text});
       } else {
         dispatch(createTodo({
           text,
@@ -40,33 +42,59 @@ export const TodoInputField = ({todo, onSubmit, onBlur = () => undefined}: { tod
     }
   };
 
+  const blurTextField = () => {
+    setTimeout(() => setTextFieldFocus(false), 100) ;
+  }
+
+  useEffect(() => {
+    console.log(datePickerOpen, textFieldFocus);
+    if (!datePickerOpen && !textFieldFocus) {
+      onBlur();
+    }
+  }, [datePickerOpen, textFieldFocus]);
+
+  useEffect(() => {
+    if (textFieldFocus) {
+      input.current?.focus();
+    }
+  }, [textFieldFocus]);
+
   return <FlexPaper>
     <FullWidthTextField onChange={event => setText(event.target.value)}
                         onKeyPress={handleKeyPress}
-                        onBlur={onBlur}
+                        onBlur={blurTextField}
                         value={text}
                         placeholder="Enter a todo"
-                        autoFocus/>
-    <MobileDateTimePicker renderInput={(props) => <TextField {...props}
-                                                             className="date-picker"
-                                                             variant="filled"
-                                                             placeholder="select due date"
-                                                             InputProps={{
-                                                               endAdornment: <InputAdornment position="end">
-                                                                 <IconButton
-                                                                   onClick={() => datePicker.current?.click()}
-                                                                   edge="end"
-                                                                 >
-                                                                   <EventIcon />
-                                                                 </IconButton>
-                                                               </InputAdornment>,
-                                                             }}/>}
-                          inputFormat="'due' dd/MM/yyyy hh:mm"
-                          inputRef={datePicker}
-                          clearable
-                          value={deadline}
-                          onChange={(newValue) => {
-                            setDeadline(newValue);
-                          }}/>
+                        inputRef={input}
+                        InputProps={{
+                          endAdornment: (
+                            <MobileDateTimePicker renderInput={(props) => <TextField {...props}
+                                                                                     className="date-picker"
+                                                                                     variant="filled"
+                                                                                     placeholder="select due date"
+                                                                                     InputProps={{
+                                                                                       endAdornment: <InputAdornment
+                                                                                         position="end">
+                                                                                         <IconButton
+                                                                                           onClick={() => setDatePickerOpen(true)}
+                                                                                           edge="end"
+                                                                                         >
+                                                                                           <EventIcon/>
+                                                                                         </IconButton>
+                                                                                       </InputAdornment>,
+                                                                                     }}/>}
+                                                  inputFormat="'due' dd/MM/yyyy hh:mm"
+                                                  clearable
+                                                  open={datePickerOpen}
+                                                  onOpen={() => setDatePickerOpen(true)}
+                                                  onClose={() => setDatePickerOpen(false)}
+                                                  onAccept={() => onSubmit?.({deadline})}
+                                                  value={deadline}
+                                                  onChange={(newValue) => {
+                                                    setDeadline(Date.parse(newValue?.toString() ?? '') ?? null);
+                                                  }}/>
+                          ),
+                        }}/>
+
   </FlexPaper>;
 };
