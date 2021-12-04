@@ -22,13 +22,13 @@ function* createTodo({payload}: TodosAction): unknown {
 }
 
 function* editTodo({payload: todo}: TodosAction): unknown {
-  const response = yield call(() => axios.put(`/api/todos/${todo._id}`, todo));
   yield put(editTodoSuccess(todo));
+  yield call(() => axios.put(`/api/todos/${todo._id}`, todo));
 }
 
 function* deleteTodo({payload: todo}: TodosAction): unknown {
-  const response = yield call(() => axios.delete(`/api/todos/${todo._id}`, todo));
   yield put(deleteTodoSuccess(todo));
+  yield call(() => axios.delete(`/api/todos/${todo._id}`, todo));
 }
 
 function* todosSaga() {
