@@ -20,6 +20,28 @@ export const InlineFlexPaper = styled(FlexPaper)`
   
   &.created {
     height: 56px;
+    border-radius: 0;
+  }
+  
+  &.completed {
+    color: gray;
+    .completed-marker {
+       width: 100%;
+       border-bottom: 1px gray solid; 
+     }
+  }
+  
+  .text-wrapper {
+    position: relative;
+  }
+ 
+ .completed-marker {
+    transition: all 0.3s;
+    position: absolute;
+    height: 50%;
+    display: block;
+    top: 0; 
+    width: 0;
   }
   
   &.deleted {

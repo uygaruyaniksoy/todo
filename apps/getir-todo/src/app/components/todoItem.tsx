@@ -46,9 +46,14 @@ export const TodoItem = ({todo}: { todo: Todo }) => {
     setEditing(false);
   };
 
-  return <InlineFlexPaper className={className}>
+  return <InlineFlexPaper className={`${className} ${completed ? 'completed' : ''}`}>
     <BlueCheckbox checked={completed} onChange={event => setCompleted(event.target.checked)}/>
-    {!editing && <Typography variant="body1" component="span" onClick={() => setEditing(true)}> {todo.text} </Typography>}
+    {!editing && <Typography variant="body1" component="span" onClick={() => setEditing(true)}>
+      <span className="text-wrapper">
+        <span className="todo-text">{todo.text}</span>
+        <span className="completed-marker"/>
+      </span>
+    </Typography>}
     {editing && <TodoInputField todoText={todo.text} onSubmit={submitEdit} onBlur={() => setEditing(false)}/>}
     <IconButton color="primary" onClick={deleteTodoItem}>
       <Close/>
