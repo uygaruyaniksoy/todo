@@ -56,10 +56,10 @@ export const TodoInputField = ({todo, onSubmit, onBlur}: { todo?: Todo, onSubmit
   }
 
   useEffect(() => {
-    if (!datePickerOpen && !textFieldFocus) {
-      onBlur?.();
+    if (!datePickerOpen && !textFieldFocus && onBlur) {
+      onBlur();
     }
-  }, [datePickerOpen, textFieldFocus]);
+  }, [datePickerOpen, textFieldFocus, onBlur]);
 
   useEffect(() => {
     if (textFieldFocus) {
