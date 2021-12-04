@@ -31,5 +31,24 @@ Users can:
 - edit the due date of each todo
 - remove a todo from the list
 
+## How to run?
+
+- specify the following environment variables:
+    - ```MONGO_URL``` => url of the mongodb, e.g. mongodb+srv://<...>.mongodb.net/todos
+    - ```MONGO_USER``` => mongo user name
+    - ```MONGO_PASS``` => mongo user pass
+    - ```PORT``` => the port you want to run this app on
+- run either the following
+```
+  yarn
+  npx nx serve api                # to run the express server
+  npx nx serve getir-todo         # to run the react app
+```
+or
+```shell script
+  npm build                       # build the app
+  node dist/apps/api/main.js      # and serve both server and ui with node
+```
+
 ## Demo
 ![Demo](demo.gif)
