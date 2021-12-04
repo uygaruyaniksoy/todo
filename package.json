@@ -7,8 +7,8 @@
     "start-ui": "nx serve getir-todo",
     "start-api": "nx serve api",
     "build": "nx run-many --target=build --projects=getir-todo --parallel=true",
-	"start-production": "mpn run build && node dist/apps/api/main.js",
-	"test": "nx test"
+  	"start-production": "npm run build && node dist/apps/api/main.js",
+  	"test": "nx test"
   },
   "private": true,
   "dependencies": {
