@@ -8,6 +8,17 @@ export const FlexPaper = styled(Paper)`
   align-items: center;
   position: relative;
   
+  &.main {
+    .MuiOutlinedInput-root > .MuiButtonBase-root {
+      position: absolute;
+      right: 14px;
+      top: 6px;    
+    }
+    .date-picker {
+      right: 44px;
+    }
+  }
+  
   .MuiTypography-root {
     flex: 1;
     padding: 17px 0 17px 14px; 

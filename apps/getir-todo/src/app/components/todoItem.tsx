@@ -1,6 +1,7 @@
 import { Todo } from '@getir-todo/api-interfaces';
 import { Close } from '@mui/icons-material';
 import { Checkbox, IconButton, Typography } from '@mui/material';
+import { format } from 'date-fns';
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
@@ -54,6 +55,7 @@ export const TodoItem = ({todo}: { todo: Todo }) => {
         <span className="completed-marker"/>
       </span>
     </Typography>}
+    {!editing && <span onClick={() => setEditing(true)}>{todo.deadline >= 0 && format(todo.deadline, '\'due\' dd/MM/yyyy hh:mm')}</span>}
     {editing && <TodoInputField todo={todo} onSubmit={submitEdit} onBlur={() => setEditing(false)}/>}
     <IconButton color="primary" onClick={deleteTodoItem}>
       <Close/>
