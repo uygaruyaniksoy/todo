@@ -3,7 +3,6 @@
   "projects": {
     "api": "apps/api",
     "api-interfaces": "libs/api-interfaces",
-    "getir-todo": "apps/getir-todo",
-    "getir-todo-e2e": "apps/getir-todo-e2e"
+    "getir-todo": "apps/getir-todo"
   }
 }
