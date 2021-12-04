@@ -97,16 +97,16 @@ export const TodoInputField = ({todo, onSubmit, onBlur}: { todo?: Todo, onSubmit
                                                     open={datePickerOpen}
                                                     onOpen={() => setDatePickerOpen(true)}
                                                     onClose={() => setDatePickerOpen(false)}
-                                                    onAccept={() => onSubmit?.({deadline})}
+                                                    onAccept={(value) => onSubmit?.({deadline: value !== null ? Date.parse(value.toString()) : -1})}
                                                     value={deadline >= 0 ? deadline : null}
                                                     onChange={(newValue) => {
                                                       setDeadline(newValue !== null ? Date.parse(newValue.toString()) : -1);
                                                     }}/>
                               {
                                 todo === undefined &&
-								<IconButton onClick={submitNew} edge="end">
-									<SendIcon/>
-								</IconButton>
+                                  <IconButton onClick={submitNew} edge="end">
+                                    <SendIcon/>
+                                  </IconButton>
                               }
                             </>
                           ),
