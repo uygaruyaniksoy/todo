@@ -35,6 +35,9 @@ export const TodoInputField = ({todo, onSubmit, onBlur}: { todo?: Todo, onSubmit
         completed: false,
         deadline,
       }));
+
+      setText('');
+      setDeadline(-1);
     }
   };
 
@@ -45,8 +48,6 @@ export const TodoInputField = ({todo, onSubmit, onBlur}: { todo?: Todo, onSubmit
       } else {
         submitNew();
       }
-
-      setText('');
     }
   };
 
