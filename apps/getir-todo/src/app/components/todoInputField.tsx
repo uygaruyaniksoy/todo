@@ -1,6 +1,8 @@
 import { Todo } from '@getir-todo/api-interfaces';
-import { TextField } from '@mui/material';
-import React, { useState } from 'react';
+import { MobileDateTimePicker } from '@mui/lab';
+import { IconButton, InputAdornment, TextField } from '@mui/material';
+import EventIcon from '@mui/icons-material/Event';
+import React, { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { createTodo } from '../state/actions/todos.action';
@@ -16,19 +18,21 @@ const FullWidthTextField = styled(TextField)`
   }
 `;
 
-export const TodoInputField = ({todoText = '', onSubmit, onBlur = () => undefined}: { todoText?: string, onSubmit?: (update: Partial<Todo>) => (void), onBlur?: () => void }) => {
-  const [text, setText] = useState(todoText);
+export const TodoInputField = ({todo, onSubmit, onBlur = () => undefined}: { todo?: Todo, onSubmit?: (update: Partial<Todo>) => (void), onBlur?: () => void }) => {
+  const datePicker = useRef<HTMLInputElement>(null);
+  const [text, setText] = useState(todo?.text ?? '');
+  const [deadline, setDeadline] = useState<number | null>(todo?.deadline ?? null);
   const dispatch = useDispatch();
 
   const handleKeyPress = (event: React.KeyboardEvent<HTMLDivElement>) => {
     if (event.key === 'Enter' && text !== '') {
       if (onSubmit) {
-        onSubmit({text});
+        onSubmit({text, deadline});
       } else {
         dispatch(createTodo({
           text,
           completed: false,
-          deadline: 0,
+          deadline,
         }));
       }
 
@@ -43,6 +47,26 @@ export const TodoInputField = ({todoText = '', onSubmit, onBlur = () => undefine
                         value={text}
                         placeholder="Enter a todo"
                         autoFocus/>
+    <MobileDateTimePicker renderInput={(props) => <TextField {...props}
+                                                             className="date-picker"
+                                                             variant="filled"
+                                                             placeholder="select due date"
+                                                             InputProps={{
+                                                               endAdornment: <InputAdornment position="end">
+                                                                 <IconButton
+                                                                   onClick={() => datePicker.current?.click()}
+                                                                   edge="end"
+                                                                 >
+                                                                   <EventIcon />
+                                                                 </IconButton>
+                                                               </InputAdornment>,
+                                                             }}/>}
+                          inputFormat="'due' dd/MM/yyyy hh:mm"
+                          inputRef={datePicker}
+                          clearable
+                          value={deadline}
+                          onChange={(newValue) => {
+                            setDeadline(newValue);
+                          }}/>
   </FlexPaper>;
 };
-

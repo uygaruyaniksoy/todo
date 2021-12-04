@@ -54,7 +54,7 @@ export const TodoItem = ({todo}: { todo: Todo }) => {
         <span className="completed-marker"/>
       </span>
     </Typography>}
-    {editing && <TodoInputField todoText={todo.text} onSubmit={submitEdit} onBlur={() => setEditing(false)}/>}
+    {editing && <TodoInputField todo={todo} onSubmit={submitEdit} onBlur={() => setEditing(false)}/>}
     <IconButton color="primary" onClick={deleteTodoItem}>
       <Close/>
     </IconButton>
